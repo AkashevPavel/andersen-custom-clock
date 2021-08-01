@@ -18,13 +18,99 @@ class CustomClockView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : View(context, attributeSet, defStyle) {
 
-
     private val customPaint: Paint = Paint()
 
+    private var mSecondHandColor: Int = 0
+    private var mMinuteHandColor: Int = 0
+    private var mHourHandColor: Int = 0
+    private var mSecondHandTruncation: Float = 0f
+    private var mMinuteHandTruncation: Float = 0f
+    private var mHourHandTruncation: Float = 0f
 
     private var sec: Int = 0
     private var min = 0
     private var hour = 0
+
+    init {
+        context.theme.obtainStyledAttributes(
+            attributeSet,
+            R.styleable.CustomClockView,
+            defStyle, 0).apply {
+                try {
+                    setHourHandColor(getColor(R.styleable.CustomClockView_hourHandColor, Color.BLACK))
+                    setHourHandTruncation(getFloat(R.styleable.CustomClockView_hourHandTruncation, 0.8f))
+
+                    setMinuteHandColor(getColor(R.styleable.CustomClockView_minuteHandColor, Color.BLUE))
+                    setMinuteHandTruncation(getFloat(R.styleable.CustomClockView_minuteHandTruncation, 0.6f))
+
+                    setSecondHandColor(getColor(R.styleable.CustomClockView_secondHandColor, Color.RED))
+                    setSecondHandTruncation(getFloat(R.styleable.CustomClockView_secondHandTruncation, 0.3f))
+
+                } finally {
+                    recycle()
+                }
+        }
+
+    }
+
+    // get/set truncation
+    fun getSecondHandTruncation(): Float {
+        return mSecondHandTruncation
+
+    }
+    fun setSecondHandTruncation(secondHandTruncation: Float) {
+        mSecondHandTruncation = secondHandTruncation
+        invalidate()
+        requestLayout()
+
+    }
+    fun getMinuteHandTruncation(): Float {
+        return mMinuteHandTruncation
+
+    }
+    fun setMinuteHandTruncation(minuteHandTruncation: Float) {
+        mMinuteHandTruncation = minuteHandTruncation
+        invalidate()
+        requestLayout()
+
+    }
+    fun getHourHandTruncation(): Float {
+        return mHourHandTruncation
+
+    }
+    fun setHourHandTruncation(hourHandTruncation: Float) {
+        mHourHandTruncation = hourHandTruncation
+        invalidate()
+        requestLayout()
+
+    }
+
+    // get/set color
+    fun getSecondHandColor(): Int {
+        return mSecondHandColor
+    }
+    fun setSecondHandColor(secondHandColor: Int) {
+        mSecondHandColor = secondHandColor
+        invalidate()
+        requestLayout()
+    }
+    fun getMinuteHandColor(): Int {
+        return mMinuteHandColor
+    }
+    fun setMinuteHandColor(minuteHandColor: Int) {
+        mMinuteHandColor = minuteHandColor
+        invalidate()
+        requestLayout()
+    }
+    fun getHourHandColor(): Int {
+        return mHourHandColor
+    }
+    fun setHourHandColor(hourHandColor: Int) {
+        mHourHandColor = hourHandColor
+        invalidate()
+        requestLayout()
+    }
+
 
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -63,21 +149,22 @@ class CustomClockView @JvmOverloads constructor(
         //drawing hour hand
         canvas.save()
         canvas.rotate(360 / 12 * hour + min * 0.5f, centerX, centerY)
-        canvas.drawLine(centerX, centerY, centerX, centerY - height / 5, customPaint)
+        customPaint.color = getHourHandColor()
+        canvas.drawLine(centerX, centerY, centerX, centerY - radius * getHourHandTruncation(), customPaint)
         canvas.restore()
 
         //drawing minute hand
         canvas.save()
         canvas.rotate(360 / 60 * min + sec * 0.1f, centerX, centerY)
-        customPaint.color = Color.BLUE
-        canvas.drawLine(centerX, centerY, centerX, centerY - height / 7, customPaint)
+        customPaint.color = getMinuteHandColor()
+        canvas.drawLine(centerX, centerY, centerX, centerY - radius * getMinuteHandTruncation(), customPaint)
         canvas.restore()
 
         //drawing second hand
         canvas.save()
         canvas.rotate(360f / 60 * sec, centerX, centerY)
-        customPaint.color = Color.RED
-        canvas.drawLine(centerX, centerY, centerX, centerY - height / 9, customPaint)
+        customPaint.color = getSecondHandColor()
+        canvas.drawLine(centerX, centerY, centerX, centerY - radius * getSecondHandTruncation(), customPaint)
         canvas.restore()
 
 
@@ -85,6 +172,8 @@ class CustomClockView @JvmOverloads constructor(
 
 
     }
+
+
 
 
 }

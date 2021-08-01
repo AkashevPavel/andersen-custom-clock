@@ -2,6 +2,22 @@
 <resources>
     <declare-styleable name="CustomClockView">
         <attr name="secondHandColor" format="color" />
+        <attr name="secondHandTruncation" format="enum">
+            <enum name="big" value="0.8"/>
+            <enum name="medium" value="0.5"/>
+            <enum name="small" value="0.3"/>
+        </attr>
         <attr name="minuteHandColor" format="color" />
+        <attr name="minuteHandTruncation" format="enum">
+            <enum name="big" value="0.8"/>
+            <enum name="medium" value="0.5"/>
+            <enum name="small" value="0.3"/>
+        </attr>
+        <attr name="hourHandColor" format="color" />
+        <attr name="hourHandTruncation" format="enum">
+            <enum name="big" value="0.8"/>
+            <enum name="medium" value="0.5"/>
+            <enum name="small" value="0.3"/>
+        </attr>
     </declare-styleable>
 </resources>

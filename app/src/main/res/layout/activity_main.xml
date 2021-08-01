@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:secondHandColor="@color/teal_700"
-        app:minuteHandColor="@color/purple_500"/>
+        app:minuteHandColor="@color/purple_500"
+        app:secondHandLength="big"/>
 
 
 
